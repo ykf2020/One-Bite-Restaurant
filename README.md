@@ -10,6 +10,7 @@ A online meal booking website with shopping cart and credit card charging functi
     - Card Number: 4311-9522-2222-2222
     - Security Code: 222
     - Expiration dates: 2022/06/06
+- Backstage Link: http://apoatsai.tw/backstage
 - Admin account for testing backstage
     - Username: admin
     - Password: admin
