@@ -4,7 +4,7 @@ A online meal booking website with shopping cart and credit card charging functi
 ![](./one-bite-restaurant/readme/index.png
 
 ## Demo
-![](./one-bite-restaurant/readme/index.png)
+![](https://github.com/ykf2020/One-Bite-Restaurant/blob/main/README/index.png?raw=true)
 - Link: http://apoatsai.tw/
 - Test Credit Card
     - Card Number: 4311-9522-2222-2222
@@ -19,6 +19,8 @@ A online meal booking website with shopping cart and credit card charging functi
     - HTML / CSS / JavaScript
 - Back-End
     - Node.js
+    - Express
+    - EJS
     - Nginx
     - Pm2
 - Cloud services
@@ -30,13 +32,13 @@ A online meal booking website with shopping cart and credit card charging functi
 
 ## Features
 ### 1. Shopping Cart
-![](./one-bite-restaurant/readme/001.gif)
+![](https://github.com/ykf2020/One-Bite-Restaurant/blob/main/README/001.gif?raw=true)
 
 ### 2. ECPAY
-![](./one-bite-restaurant/readme/002.gif)
+![](https://github.com/ykf2020/One-Bite-Restaurant/blob/main/README/002.gif?raw=true)
 
 ### 3. Admin backstage with creating, updating, and deleting items, questions, lotteries.
-![](./one-bite-restaurant/readme/003.gif)
+![](https://github.com/ykf2020/One-Bite-Restaurant/blob/main/README/003.gif?raw=true)
 
 ## Future Features
 - RWD
