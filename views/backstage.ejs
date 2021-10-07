@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>餐廳官網</title>
+    <style media="screen">
+      * {
+        padding:0;
+        margin:0;
+        list-style:none;
+      }
+
+      body{
+        position: relative;
+        z-index: -1;
+      }
+      .navbar {
+        box-shadow: -1.4px -1.4px 6px 0 #97a2a0;
+      }
+      .navbar .wrapper{
+        display : flex;
+        justify-content :space-between;
+        align-items :center;
+        height : 84px;
+        background : white;
+        padding : 0px 24px;
+      }
+      .wrapper {
+        max-width:1280px;
+        margin: 0 auto;
+        padding:0px 12px;
+      }
+      .navbar__site-name {
+        color : #489846;
+        font-size : 36px;
+      }
+      .navbar__list {
+        list-style:none;
+        margin : 0;
+        padding : 0;
+        display : flex;
+        flex-direction : row;
+        font-size : 18px;
+        font-family : MicrosoftJhengHei;
+      }
+      .navbar__list li {
+        margin-left : 12px;
+        border-radius : 8px;
+        transition: background 0.1s;
+      }
+
+      .navbar__list li.active,
+      .navbar__list li:hover {
+        background : #ff7286;
+        color : white;
+      }
+
+      .navbar__list li a {
+        display: block;
+        padding : 12px 24px;
+        border-radius : 8px;
+        text-decoration : none;
+        color : black;
+      }
+
+      .navbar__list li.active a,
+      .navbar__list li:hover a {
+        color : white
+      }
+
+      .banner {
+        margin: 0;
+        z-index: -1;
+        position:relative;
+        background: url("pictures/games-bn.png") center/cover no-repeat;
+        height: 767px;
+      }
+
+      .mask::after {
+        content: "";
+        position:absolute;
+        background: rgba(256, 256, 256, 0.5);
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+      }
+
+      .banner h1 {
+        position:relative;
+        z-index:1;
+        margin: 0;
+        color: white;
+        display:inline-block;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        font-size:60px;
+        font-weight:blod;
+      }
+
+      .games {
+        background:white;
+        width:500px;
+        border-radius: 16px;
+        position: absolute;
+        left:50%;
+        top:55px;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 10;
+      }
+
+      .games__period, .games__dsc, .games__prize {
+        width:460px;
+        display: flex;
+        margin: 20px auto 0px;
+        padding-bottom: 24px;
+        border-bottom: dotted 1px #cdcdcd;
+      }
+
+      .games__period {
+        margin: 0px auto;
+      }
+
+      .games h2{
+        text-align: center;
+        color: #5ec1b6;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 40px auto;
+
+      }
+
+      .games h3{
+        text-align: justify;
+        text-justify: inter-word;
+        font-size: 18px;
+        width:90px;
+        margin-right: 22px;
+      }
+
+      .games p{
+        width:320px;
+        font-size:16px;
+        color: #322929;
+        line-height: 1.63;
+      }
+
+      .games__button {
+        margin: 40px auto 24px;
+        width:400px;
+        height:55px;
+        background: #e62a45;
+        border-radius: 8px;
+        box-sizing: border-box;
+        color:white;
+        font-size: 20px;
+        text-align: center;
+        line-height: 55px;
+        transition: all 0.2s ease;
+      }
+
+      .games__button:hover{
+        color:white;
+        background:#ff7286;
+        cursor:pointer;
+      }
+
+      .prize h2 {
+        font-weight: normal;
+        font-size: 36px;
+        color:black;
+      }
+
+      .prize .none {
+        font-size: 36px;
+        color:white;
+        margin-bottom: 20px
+      }
+
+      .prize {
+        width:80%;
+        position: absolute;
+        top:190px;
+        left:50%;
+        transform: translateX(-50%);
+        text-align: center;
+        z-index: 5;
+      }
+
+      .prize__button {
+        margin: 55px auto 0px;
+        width:400px;
+        height:55px;
+        background: #e62a45;
+        border-radius: 8px;
+        box-sizing: border-box;
+        color:white;
+        font-size: 20px;
+        text-align: center;
+        line-height: 55px;
+        transition: all 0.2s ease;
+      }
+
+      .prize__button:hover {
+        color:white;
+        background:#ff7286;
+        cursor:pointer;
+      }
+
+      .footer__top {
+        background:#e8efee;
+        padding:32px 0px;
+      }
+
+      .footer__bottom {
+        background:#35564b;
+        padding:12px 0px;
+        text-align:center;
+        color:white;
+        font-size:16px;
+        padding:12px;
+      }
+      .footer__top .wrapper {
+        display:flex;
+        justify-content:space-between;
+      }
+      .footer__site {
+        font-size:36px;
+        color:#489846;
+      }
+      .footer__info div + div {
+        margin-top: 10px;
+      }
+
+      .footer__info {
+        margin-right:16px;
+      }
+
+
+
+
+      @media(max-width:768px) {
+        .navbar .wrapper {
+          height: 120px;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 0px;
+        }
+        .navbar__list {
+          display:flex;
+          width: 100%;
+        }
+        .navbar__list li {
+          margin-left: 0;
+          flex: 1;
+          border-radius: 0;
+          text-align:center
+        }
+        .navbar__site-name {
+          margin-top:10px;
+        }
+
+        .footer__top .wrapper {
+          flex-direction:column-reverse;
+          margin:12px;
+        }
+        .footer__info {
+          margin-right:0;
+          margin-top:16px;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="wrapper">
+        <div class="navbar__site-name">
+          Just A bite!
+        </div>
+        <ul class="navbar__list">
+          <li class="active"><a href="#">餐點設定</a></li>
+          <li><a href="#">抽獎獎項設定</a></li>
+          <li><a href="#">常見問題設定</a></li>
+          <li><a href="#">先空著</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <footer>
+      <div class="footer__top">
+        <div class="wrapper">
+          <div class="footer__info">
+            <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+            <div>訂位專線：02-1314-5566</div>
+            <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+            <div>email：service@justabite.com.tw</div>
+          </div>
+          <div class="">
+            <div class="footer__site">Just A Bite!</div>
+            <div class="">Facebook / Instagram / Youtube</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有
+      </div>
+    </footer>
+  </body>
+  <script type="text/javascript">
+  </script>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>餐廳官網</title>
+    <link rel="stylesheet" href="css/questions.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="wrapper">
+        <a class="index" href="/">
+          <div class="navbar__site-name">
+            Just A bite!
+          </div>
+        </a>
+        <ul class="navbar__list">
+          <li><a href="/lottery">抽個大獎</a></li>
+          <li><a href="/menu">我要點餐</a></li>
+          <li><a href="/order">查詢訂單</a></li>
+          <li  class="active"><a href="/questions">常見問題</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="wrapper">
+      <section class="section">
+        <h2 class="section__title">FAQ - 常見問題</h2>
+        <div class="questions__container"></div>
+      </section>
+    </div>
+    <footer>
+      <div class="footer__top">
+        <div class="wrapper">
+          <div class="footer__info">
+            <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+            <div>訂位專線：02-1314-5566</div>
+            <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+            <div>email：service@justabite.com.tw</div>
+          </div>
+          <div class="">
+            <div class="footer__site">Just A Bite!</div>
+            <div class="">Facebook / Instagram / Youtube</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有
+      </div>
+    </footer>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"></script>
+      <script type="text/javascript">
+        $(document).ready(async () => {
+          const data = await fetch('/apis/questions').then(data => data.json())
+          for(let i=0; i<data.length; i++) {
+            let question = document.createElement('div')
+            question.classList.add('question')
+            question.innerHTML = `<div class="Q">
+              <h3>Q${i+1}: <span>${data[i].title}</span></h3>
+            </div>
+            <div class="A noshow">
+              <p>${data[i].answer}</p>
+            </div>`
+            $('.questions__container').append(question)
+          }
+          $('.questions__container').on('click','span',(e) => {
+            $(e.target).parent().parent().parent().find( ".A" ).toggleClass('noshow')
+          })
+        })
+      </script>
+  </body>
+</html>

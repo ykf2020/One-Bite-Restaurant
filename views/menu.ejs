@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <title>餐廳官網</title>
+  </head>
+  <body>
+    <% if (errorMessage && errorMessage.length > 0) { %>
+      <div class="overlay__message">
+        <div class="overlay__close-btn">X</div>
+        <h3>錯誤</h3>
+        <p><%= errorMessage %></p>
+      </div>
+     <% } %>
+    <div class="overlay hide">
+    </div>
+    <div class="overlay__cart hide">
+      <div class="overlay__close-btn">X</div>
+      <h3>購物清單</h3>
+      <div class="cart__items">
+      </div>
+      <div class="total__price">
+        <h3>Total</h3>
+        <h3 class="money"></h3>
+      </div>
+      <div class="cartbutton">
+        <button onclick="location.href='/order';"class="checkout__btn">前往結帳</button>
+      </div>
+    </div>
+    <nav class="navbar">
+      <div class="wrapper">
+        <a class="index" href="/">
+          <div class="navbar__site-name">
+            Just A bite!
+          </div>
+        </a>
+        <ul class="navbar__list">
+          <li><a href="/lottery">抽個大獎</a></li>
+          <li class="active"><a href="/menu">我要點餐</a></li>
+          <li><a href="/order">查詢訂單</a></li>
+          <li><a href="/questions">常見問題</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section class="banner"></section>
+    <div class="wrapper">
+      <section class="section">
+        <h2 class="section__title">熱銷搶購中</h2>
+        <div class="hit__photo">
+          <div class="hit__photo__inner">
+            <div class="circle">售完</div>
+            <img src="./pictures/ad-01.png" alt="">
+            <div class="cover"></div>
+          </div>
+          <div class="hit__photo__inner">
+            <div class="circle">售完</div>
+            <img src="./pictures/ad-02.png" alt="">
+            <div class="cover"></div>
+          </div>
+          <div class="hit__photo__inner">
+            <div class="circle">售完</div>
+            <img src="./pictures/ad-03.png" alt="">
+            <div class="cover"></div>
+          </div>
+        </div>
+        <div class="middle">
+          <div class="middle__left">
+            <img src="./pictures/order-ad.png" alt="">
+          </div>
+          <div class="middle__right">
+            <h3 class="middle__right__title">在家也能輕鬆<br>咬一口我們的鮮甜清爽</h3>
+            <p class="middle__right__p">您再也不必受限於時間或地點，隨時隨地透過我們24小時的線上購物選購，咬一口廚房堅持以細選食材、輕盈口感，呈現食材本身的原滋原味。</p>
+            <p class="middle__right__p">我們將咬一口的經典菜色研發製成相應當季的包裝食品及各式精美的伴手禮盒。將剛出爐的新鮮迅速送達家人手中，也適合與更多喜愛咬一口的親朋好友分享難得的健康滋味。</p>
+          </div>
+        </div>
+      </section>
+    </div>
+    <section class="section section__menu">
+      <h3 class="menu__title">立 即 輕 鬆 選 購</h3>
+      <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+      <div class="menu__items">
+      </div>
+    </section>
+    <div class="wrapper">
+      <section class="section">
+        <h3 class="map__title">還 是 想 要 親 身 體 會 我 們 的 服 務 ？</h3>
+        <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+        <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.624222814904!2d120.44760661459419!3d23.474015505195922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e9574f32aa2bd%3A0x67e6cf20c50dcaf6!2z5ZiJ576p5aO66LGG6IqxIOeUnOWTgemkkOW7syDosYbmvL_osYboirHntrLnvo7lupct5ZiJ576p5b-F5ZCD6LGG6IqxfOW_heWQg-e-jumjn3zmiYvlt6XosYboirF85b-F5ZCD55Sc5ZOBfOWcqOWcsOaOqOiWpueUnOm7nnzosYboirHmjqjolqY!5e0!3m2!1szh-TW!2stw!4v1620493862020!5m2!1szh-TW!2stw"
+        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </section>
+    </div>
+    <footer>
+      <div class="footer__top">
+        <div class="wrapper">
+          <div class="footer__info">
+            <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+            <div>訂位專線：02-1314-5566</div>
+            <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+            <div>email：service@justabite.com.tw</div>
+          </div>
+          <div class="">
+            <div class="footer__site">Just A Bite!</div>
+            <div class="">Facebook / Instagram / Youtube</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有
+      </div>
+    </footer>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(async () => {
+          const data = await fetch('/apis/items').then(data => data.json())
+          for(let i=0; i<data.length; i++) {
+            let item = document.createElement('div')
+            item.classList.add('item')
+            item.innerHTML = `<img src="/apis/get-image/${data[i].picture}" alt="">
+            <p>${data[i].name}<span> | </span>$${data[i].price}</p>
+            <button data-id="${data[i]._id}" data-picture-key="${data[i].picture}" class="menu__add__btn  menu-btn-1">加入購物車</button>`
+            $('.menu__items').append(item)
+          }
+          $('.menu__items').on('click','button', async (e) => {
+            const id = ($(e.target).attr('data-id'))
+            const currentCartData = await fetch('/apis/add-cart/' + id).then(data => data.json())
+            let total = 0
+            $('.cart__items').empty()
+            for(let i=0; i<currentCartData.length; i++){
+              let cartItem = document.createElement('div')
+              cartItem.classList.add('cart__item')
+              cartItem.innerHTML = `<div class="cart__item__pic"><img src="/apis/get-image/${currentCartData[i].image}" alt=""> </div>
+              <div class="cart__item__name">${currentCartData[i].itemName}</div>
+              <div class="cart__item__check"><p>單價：${currentCartData[i].itemPrice}</p><p>數量：${currentCartData[i].amount}</p></div>`
+              $('.cart__items').append(cartItem)
+              total += (currentCartData[i].itemPrice * currentCartData[i].amount)
+            }
+            $('.money').text('$'+total)
+            $('.overlay').show()
+            $('.overlay__cart').show()
+          })
+          $('.overlay__close-btn').click(() => {
+            $('.overlay').hide()
+            $('.overlay__cart').hide()
+          })
+        })
+    </script>
+  </body>
+</html>

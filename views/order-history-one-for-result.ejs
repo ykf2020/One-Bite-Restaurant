@@ -1,0 +1,148 @@
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>餐廳官網</title>
+    <link rel="stylesheet" href="../css/orderhisone.css">
+  </head>
+  <body>
+    <div class="overlay">
+    </div>
+    <div class="overlay__message">
+      <div class="overlay__close-btn">X</div>
+      <% if (errorMessage && errorMessage.length > 0) { %>
+      <h3>錯誤</h3>
+      <p><%= errorMessage %></p>
+       <% } else {%>
+      <h3><%= success == 1 ? "訂購成功": "訂購失敗"%></h3>
+      <p><%= success == 1 ? "付款成功，商品會為您火速配送！": "付款失敗，請重新下訂或洽客服人員"%></p>
+      <% } %>
+    </div>
+    <nav class="navbar">
+      <div class="wrapper">
+        <a class="index" href="/">
+          <div class="navbar__site-name">
+            Just A bite!
+          </div>
+        </a>
+        <ul class="navbar__list">
+          <li><a href="/lottery">抽個大獎</a></li>
+          <li><a href="/menu">我要點餐</a></li>
+          <li class="active"><a href="/order">查詢訂單</a></li>
+          <li><a href="/questions">常見問題</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section class="list__buttons">
+      <a class="list__button" href="/order">待結帳訂單</a>
+      <a class="active list__button" href="/order-history">歷史訂單</a>
+    </section>
+    <section class="list">
+      <div class="wrapper">
+        <h2 class="title__id">訂單編號：<span><%= (typeof(data)!==undefined) ? data.uid : "" %></span></h2>
+        <div class="hr"></div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th class="thead__main__col">商品</th>
+              <th>價格</th>
+              <th>數量</th>
+              <th>小計</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if(typeof(data)!==undefined){ const parsed = JSON.parse(data.items); for(let i=0; i<parsed.length; i++){ %>
+              <tr>
+                <td><%=i+1%></td>
+                <td class="tbody__main__col"><img src="/apis/get-image/<%=parsed[i].image%>" height="80px;" alt=""><%=parsed[i].itemName%></td>
+                <td><%=parsed[i].itemPrice%></td>
+                <td><%=parsed[i].amount%></td>
+                <td><%=parsed[i].itemPrice * parsed[i].amount%></td>
+              </tr>
+            <%}}%>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="count">小計：$<%= typeof(data)!==undefined ? data.count : "0" %></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="shipping_fee">運費：$<%= (typeof(data)!==undefined) ? ((data.count>1000) ? "0" : "99") : "99" %></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="totalpayment">總計：$<%= typeof(data)!==undefined ? data.total : "0" %></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+    <section class="bill__info">
+      <div class="wrapper">
+        <h2>帳單資訊</h2>
+        <div class="hr"></div>
+        <form class="bill__form">
+          <div class="form__inner">
+            <p>姓名&emsp;&emsp;</p>
+            <p class="bill__name"><%= typeof(data)!==undefined ? data.contact.name : "0" %></p>
+          </div>
+          <div class="form__inner">
+            <p>聯絡電話 </p>
+            <p class="bill__tel"><%= typeof(data)!==undefined ? data.contact.tel  : "0" %></p>
+          </div>
+          <div class="form__inner">
+            <p>電子郵件 </p>
+            <p class="bill__email"><%= typeof(data)!==undefined ? data.contact.email : "0" %></p>
+          </div>
+          <div class="form__inner">
+            <p>送餐地址 </p>
+            <p class="bill__address"><%= typeof(data)!==undefined ? data.contact.address : "0" %></p>
+          </div>
+          <div class="form__inner">
+          </div>
+        </form>
+        <button onclick="location.href='/order-history'" class="bill__btn"name="button">回訂單列表</button>
+      </div>
+    </section>
+    <footer>
+      <div class="footer__top">
+        <div class="wrapper">
+          <div class="footer__info">
+            <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+            <div>訂位專線：02-1314-5566</div>
+            <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+            <div>email：service@justabite.com.tw</div>
+          </div>
+          <div class="">
+            <div class="footer__site">Just A Bite!</div>
+            <div class="">Facebook / Instagram / Youtube</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有
+      </div>
+      <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+      <script type="text/javascript">
+      $('.overlay__close-btn').click(() => {
+        $('.overlay').hide()
+        $('.overlay__message').hide()
+      })
+      </script>
+    </footer>
+  </body>
+</html>

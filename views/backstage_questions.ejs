@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>餐廳官網</title>
+    <link rel="stylesheet" href="../css/backstage_questions.css">
+  </head>
+  <body>
+    <% if (errorMessage && errorMessage.length > 0) { %>
+      <div class="overlay__message">
+        <div class="overlay__close-btn">X</div>
+        <h3>錯誤</h3>
+        <p><%= errorMessage %></p>
+      </div>
+     <% } %>
+    <div class="overlay hide">
+    </div>
+    <div class="overlay__editquestion hide">
+      <div class="overlay__close-btn">X</div>
+      <h3>編輯問題</h3>
+      <form class="overlay__form" action="" method="post">
+        <div class="overlay__form__title">
+          <p>問題：</p>
+          <input required type="text" name="title" value=""></input>
+        </div>
+        <div class="overlay__form__answer">
+          <p>答案： </p>
+          <textarea required type="" name="answer" value=""></textarea>
+        </div>
+        <input class="bill__btn" type="submit" name="" ></input>
+      </form>
+    </div>
+    <div class="overlay__edit__order hide">
+      <div class="overlay__close-btn2">X</div>
+      <h3>編輯順序</h3>
+      <form class="form__change__order" action="/apis/questions-order" method="post">
+      </form>
+      <div class="form__change__order__btns">
+        <button class="form__change__order__btn change-btn" type="button" name="button">送出</button>
+        <button class="form__change__order__btn cancel-btn" type="button" name="button">取消</button>
+      </div>
+    </div>
+    <nav class="navbar">
+      <div class="wrapper">
+        <div class="navbar__site-name">
+          Just A bite!
+        </div>
+        <ul class="navbar__list">
+          <li><a href="/backstage/menu">餐點設定</a></li>
+          <li><a href="/backstage/lottery">抽獎獎項設定</a></li>
+          <li class="active"><a href="/backstage/questions">常見問題設定</a></li>
+          <li><a href="/logout">登出</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section class="bill__info">
+      <div class="wrapper">
+        <h2>新增問題</h2>
+        <div class="hr"></div>
+        <form class="bill__form" action="/apis/questions" method="post" enctype="application/x-www-form-urlencoded">
+          <div class="form__inner">
+            <p>問題<span>*</span> </p>
+            <input required type="text" name="title" value="">
+          </div>
+          <div class="form__inner">
+            <p>答案<span>*</span> </p>
+            <textarea required  name="answer" value=""></textarea>
+          </div>
+          <div class="form__inner">
+            <button class="bill__btn" type="submit" name="button">確認送出</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <div class="maininfo">
+      <div class="tabletitle">
+        <h2>目前問與答</h2>
+        <div class="hr"></div>
+      </div>
+      <div class="wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>編號</th>
+              <th>問題</th>
+              <th>答案</th>
+              <th>設定</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <button class="order__btn" type="button" name="button">編輯順序</button>
+      </div>
+    </div>
+    <footer>
+      <div class="footer__top">
+        <div class="wrapper">
+          <div class="footer__info">
+            <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+            <div>訂位專線：02-1314-5566</div>
+            <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+            <div>email：service@justabite.com.tw</div>
+          </div>
+          <div class="">
+            <div class="footer__site">Just A Bite!</div>
+            <div class="">Facebook / Instagram / Youtube</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有
+      </div>
+    </footer>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"></script>
+      <script type="text/javascript">
+        $(document).ready(async () => {
+
+          const data = await fetch('/apis/questions').then(data => data.json())
+
+          for(let i=0; i<data.length; i++) {
+            let tr = document.createElement('tr')
+            tr.innerHTML = `<td>${i+1}</td>
+            <td class="td_title">${data[i].title}</td>
+            <td class="td_answer">${data[i].answer}</td>
+            <td class="td_operation">
+              <a data-id="${data[i]._id}" href="" class="btn btn-edit btn-outline-secondary">編輯</a>
+              <a href="/apis/delete-question/${data[i]._id}"  class="btn btn-outline-danger">刪除</a>
+            </td>`
+            $('tbody').append(tr)
+          }
+          $('tbody').on('click','.btn-edit',(e) => {
+            e.preventDefault()
+            let id = $(e.target).attr('data-id')
+            let question = $(e.target).parent().siblings('.td_title').text()
+            let answer = $(e.target).parent().siblings('.td_answer').text()
+            $('.overlay__form').attr('action', `/apis/edit-question/${id}`);
+            $(".overlay__form input[name='title']").val(question)
+            $('.overlay__form textarea').val(answer)
+            $('.overlay').show()
+            $('.overlay__editquestion').show()
+          })
+          $('.overlay__close-btn').click(() => {
+            $('.overlay').hide()
+            $('.overlay__editquestion').hide()
+            $('.overlay__message').hide()
+          })
+
+          $('.order__btn').click(() => {
+            $('.form__change__order').empty()
+            for(let i=0; i<data.length; i++) {
+              let div = document.createElement('div')
+              div.classList.add('change__order__item')
+              div.innerHTML = `<p>${i+1}. <span class="title">${data[i].title}</span></p>
+              <div class="change__order__item__btns">
+                <button type="button" class="change__order-btn up-btn">↑</button>
+                <button type="button" class="change__order-btn down-btn">↓</button>
+              </div>
+              <input type="hidden" name="id" value="${data[i]._id}">`
+              $('.form__change__order').append(div)
+            }
+          })
+
+          $('.form__change__order').on('click', (e) => {
+            if($(e.target).hasClass('down-btn')) {
+              let currentTitle = $(e.target).parent().parent().find('.title').text()
+              let currentId = $(e.target).parent().parent().find('input[name="id"]').val()
+              let nextTitle = $(e.target).parent().parent().next().find('.title').text()
+              let nextId = $(e.target).parent().parent().next().find('input[name="id"]').val()
+              if(nextId) {
+                $(e.target).parent().parent().find('.title').text(nextTitle)
+                $(e.target).parent().parent().find('input[name="id"]').val(nextId)
+                $(e.target).parent().parent().next().find('.title').text(currentTitle)
+                $(e.target).parent().parent().next().find('input[name="id"]').val(currentId)
+              }
+
+            }
+            if($(e.target).hasClass('up-btn')){
+              let currentTitle = $(e.target).parent().parent().find('.title').text()
+              let currentId = $(e.target).parent().parent().find('input[name="id"]').val()
+              let prevTitle = $(e.target).parent().parent().prev().find('.title').text()
+              let prevId = $(e.target).parent().parent().prev().find('input[name="id"]').val()
+              if(prevId) {
+                $(e.target).parent().parent().find('.title').text(prevTitle)
+                $(e.target).parent().parent().find('input[name="id"]').val(prevId)
+                $(e.target).parent().parent().prev().find('.title').text(currentTitle)
+                $(e.target).parent().parent().prev().find('input[name="id"]').val(currentId)
+              }
+            }
+          })
+          $('.change-btn').click(() => {
+            $('.form__change__order').submit()
+          })
+          $('.order__btn').click(() => {
+            $('.overlay').show()
+            $('.overlay__edit__order').show()
+          })
+          $('.cancel-btn').click(() => {
+            $('.overlay').hide()
+            $('.overlay__edit__order').hide()
+          })
+          $('.overlay__close-btn2').click(() => {
+            $('.overlay').hide()
+            $('.overlay__edit__order').hide()
+          })
+        })
+      </script>
+  </body>
+  <script type="text/javascript">
+  </script>
+</html>

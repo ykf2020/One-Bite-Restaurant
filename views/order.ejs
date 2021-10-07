@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>餐廳官網</title>
+    <link rel="stylesheet" href="css/order.css">
+  </head>
+  <body>
+    <% if (errorMessage && errorMessage.length > 0) { %>
+      <div class="overlay__message">
+        <div class="overlay__close-btn">X</div>
+        <h3>錯誤</h3>
+        <p><%= errorMessage %></p>
+      </div>
+     <% } %>
+    <nav class="navbar">
+      <div class="wrapper">
+        <a class="index" href="/">
+          <div class="navbar__site-name">
+            Just A bite!
+          </div>
+        </a>
+        <ul class="navbar__list">
+          <li><a href="/lottery">抽個大獎</a></li>
+          <li><a href="/menu">我要點餐</a></li>
+          <li class="active"><a href="/order">查詢訂單</a></li>
+          <li><a href="/questions">常見問題</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section class="list__buttons">
+      <a class="active list__button" href="/order">待結帳訂單</a>
+      <a class="list__button" href="/order-history">歷史訂單</a>
+    </section>
+    <section class="list">
+      <div class="wrapper">
+        <h2>購物清單</h2>
+        <div class="hr"></div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th></th>
+              <th class="thead__main__col">商品</th>
+              <th>價格</th>
+              <th>數量</th>
+              <th>小計</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="count">小計：$0</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="shipping_fee"><span class="shipping_fee__warn">購物滿1000免運！ </span>運費：$99</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="totalpayment">總計：$0</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+    <section class="bill__info">
+      <div class="wrapper">
+        <h2>帳單資訊</h2>
+        <div class="hr"></div>
+        <form class="bill__form" action="/payment" method="post">
+          <div class="form__inner">
+            <p>姓名<span>*</span> </p>
+            <input type="text" name="name" value="">
+          </div>
+          <div class="form__inner">
+            <p>聯絡電話<span>*</span> </p>
+            <input type="tel" name="tel" value="">
+          </div>
+          <div class="form__inner">
+            <p>電子郵件<span>*</span> </p>
+            <input type="email" name="email" value="">
+          </div>
+          <div class="form__inner">
+            <p>送餐地址<span>*</span> </p>
+            <input type="text" name="address" value="">
+          </div>
+          <div class="pay__info hide">
+            <input type="hidden" name="count" value="">
+            <input type="hidden" name="total" value="">
+            <input type="hidden" name="itemData" value="">
+            <input type="hidden" name="itemstring" value="">
+          </div>
+          <div class="form__inner">
+            <button class="bill__btn" type="submit" name="button">確認送出</button>
+          </div>
+        </form>
+      </div>
+    </section>
+    <footer>
+      <div class="footer__top">
+        <div class="wrapper">
+          <div class="footer__info">
+            <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+            <div>訂位專線：02-1314-5566</div>
+            <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+            <div>email：service@justabite.com.tw</div>
+          </div>
+          <div class="">
+            <div class="footer__site">Just A Bite!</div>
+            <div class="">Facebook / Instagram / Youtube</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有
+      </div>
+      <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+        <script type="text/javascript">
+          $(document).ready(async () => {
+            let count = 0
+            let total = 0
+            let itemString = ""
+
+            // 從購物車的 session 拿資料並 render
+            const data = await fetch('/apis/get-cart').then(data => data.json())
+            for(let i=0; i<data.length; i++) {
+              let tr = document.createElement('tr')
+              tr.innerHTML = `<td>${i+1}</td>
+              <td><a class="delete-btn" href="/apis/delete-cart/${data[i].itemId}">刪除</a></td>
+              <td class="tbody__main__col"><img src="/apis/get-image/${data[i].image}" height="80px;" alt="">${data[i].itemName}</td>
+              <td>${data[i].itemPrice}</td>
+              <td><form action="/apis/change-cart/${data[i].itemId}" method="post"><input class="list__amount" type="number" min="0" name="amount" value="${data[i].amount}"></form></td>
+              <td>${data[i].itemPrice * data[i].amount}</td>`
+              $('tbody').append(tr)
+              count += (data[i].itemPrice * data[i].amount)
+              itemString += `#${data[i].itemName}(* ${data[i].amount})`
+            }
+            $('.count').text('小計：$ ' + count)
+
+            // 算金額
+            if(count >= 1000) {
+              total = count
+              $('.shipping_fee').html('<span class="shipping_fee__warn">購物滿1000免運！ </span>運費：$ 0')
+              $('.totalpayment').text('總計：$ '+ count)
+            } else {
+              total = count + 99
+              $('.totalpayment').text('總計：$ '+ (count + 99))
+            }
+            // 給創訂單跟金流的資訊存在 hidden 的 input 裡
+            $(".pay__info input[name='count']").val(count)
+            $(".pay__info input[name='total']").val(total)
+            $(".pay__info input[name='itemData']").val(JSON.stringify(data))
+            $(".pay__info input[name='itemstring']").val(itemString)
+            $("tbody").on('change','.list__amount', debounce(handleChange,250))
+
+            $('.overlay__close-btn').click(() => {
+              $('.overlay__message').hide()
+            })
+
+            function debounce(fn, delay) {
+              let timer = null;
+              return function (...args) {
+                if (timer) {
+                  clearTimeout(timer);
+                }
+                timer = setTimeout(() => fn(...args), delay);
+              };
+            }
+
+            function handleChange(e) {
+              $(e.target).parent().submit()
+            }
+          })
+        </script>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>餐廳官網</title>
+    <link rel="stylesheet" href="css/orderhis.css">
+  </head>
+  <body>
+    <% if (errorMessage && errorMessage.length > 0) { %>
+      <div class="overlay__message">
+        <div class="overlay__close-btn">X</div>
+        <h3>錯誤</h3>
+        <p><%= errorMessage %></p>
+      </div>
+     <% } %>
+    <nav class="navbar">
+      <div class="wrapper">
+        <a class="index" href="/">
+          <div class="navbar__site-name">
+            Just A bite!
+          </div>
+        </a>
+        <ul class="navbar__list">
+          <li><a href="/lottery">抽個大獎</a></li>
+          <li><a href="/menu">我要點餐</a></li>
+          <li class="active"><a href="/order">查詢訂單</a></li>
+          <li><a href="/questions">常見問題</a></li>
+        </ul>
+      </div>
+    </nav>
+    <section class="list__buttons">
+      <a class="list__button" href="/order">待結帳訂單</a>
+      <a class="active list__button" href="/order-history">歷史訂單</a>
+    </section>
+    <section class="list">
+      <div class="wrapper">
+        <h2>購物清單</h2>
+        <div class="hr"></div>
+        <table>
+          <thead>
+            <tr>
+              <th>訂單編號</th>
+              <th>訂購日期</th>
+              <th>商品</th>
+              <th>金額</th>
+              <th>狀態</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <footer>
+      <div class="footer__top">
+        <div class="wrapper">
+          <div class="footer__info">
+            <div>餐館地址: 天上地下天堂路三分之一里六段520號</div>
+            <div>訂位專線：02-1314-5566</div>
+            <div>營業時間：週一〜週五 09:00~18:00 / 週六、週日、國定假日（含連假）休息</div>
+            <div>email：service@justabite.com.tw</div>
+          </div>
+          <div class="">
+            <div class="footer__site">Just A Bite!</div>
+            <div class="">Facebook / Instagram / Youtube</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        Copyright © 2020 Just A Bite All Rights Reserved. 咬一口股份有限公司版權所有
+      </div>
+    </footer>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(document).ready(async () => {
+        const data = await fetch('/apis/get-orders').then(data => data.json())
+        for(let i=0; i<data.length; i++) {
+          let {uid, items, created_at, total ,paid} = data[i]
+          let date = new Date(created_at)
+          let tr = document.createElement('tr')
+          tr.innerHTML=`<td><a class="order__url" href="/order-history/${data[i].uid}">${uid}</a></td>
+          <td>${date.toLocaleString()}</td>
+          <td class="item_amount"></td>
+          <td>$${total}</td>
+          <td>${paid ? "已付款<br> 配送中" : "尚未付款"}</td>`
+          $('tbody').append(tr)
+          let parsed = JSON.parse(items)
+          for(let j=0; j<parsed.length; j++){
+            let div = document.createElement('div')
+            div.innerHTML=`${parsed[j].itemName} * ${parsed[j].amount}`
+            $('tbody').find('.item_amount').last().append(div)
+          }
+        }
+        $('.overlay__close-btn').click(() => {
+          $('.overlay__message').hide()
+        })
+      })
+    </script>
+  </body>
+</html>
