@@ -8,7 +8,7 @@ const cartController = {
     } else {
       try {
         for (let i = 0; i < req.session.cart.length; i++) {
-          let itemInfo = await Item.findOne({
+          const itemInfo = await Item.findOne({
             _id: req.session.cart[i].itemId
           })
           currentCartData.push({
@@ -44,7 +44,7 @@ const cartController = {
     }
     try {
       for (let i = 0; i < req.session.cart.length; i++) {
-        let itemInfo = await Item.findOne({
+        const itemInfo = await Item.findOne({
           _id: req.session.cart[i].itemId
         })
         currentCartData.push({

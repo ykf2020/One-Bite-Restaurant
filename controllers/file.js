@@ -79,6 +79,7 @@ const fileController = {
       await deleteFileFromS3(key)
       next()
     } catch (err) {
+      console.log(err)
       req.flash('errorMessage', 'S3連線錯誤，請重試')
       res.redirect('back')
     }

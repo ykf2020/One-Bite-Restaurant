@@ -118,7 +118,7 @@ const lotteryController = {
         })
       }
 
-      function draw(list) {
+      function drawPrizes(list) {
         let p = [0]
         let win = Math.floor(Math.random() * 1000 + 1)
         let result = false
@@ -147,7 +147,7 @@ const lotteryController = {
         }
         return result
       }
-      let result = draw(drawingList)
+      let result = drawPrizes(drawingList)
       res.json(result)
     } catch (err) {
       res.json({

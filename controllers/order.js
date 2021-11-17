@@ -1,19 +1,8 @@
 /* eslint-disable */
 const Order = require('../models/order')
-const uid = require('uid').uid
-const pad = (v) => {
-  return (v < 10) ? '0' + v : v
-}
-const getDateString = (d) => {
-  let year = d.getFullYear()
-  let month = pad(d.getMonth() + 1)
-  let day = pad(d.getDate())
-  let hour = pad(d.getHours())
-  let min = pad(d.getMinutes())
-  let sec = pad(d.getSeconds())
+const { uid } = require('uid')
+const getDateString = require('../utils.js')
 
-  return year + "/" + month + "/" + day + " " + hour + ":" + min + ":" + sec
-}
 
 const orderController = {
   getOrder: async (req, res) => {
@@ -67,9 +56,9 @@ const orderController = {
       res.redirect('back')
       return
     }
-    const uidid = uid(20)
+    const orderuid = uid(20)
     const order = new Order({
-      uid: uidid,
+      uid: orderuid,
       items: itemData,
       count: count,
       total: total,
@@ -84,7 +73,7 @@ const orderController = {
     try {
       const data = await order.save()
       res.locals.alterDate = getDateString(data.created_at)
-      res.locals.uid = uidid
+      res.locals.uid = orderuid
       next()
     } catch (err) {
       req.flash('errorMessage', '連線錯誤，請再試一次')
